@@ -1,0 +1,76 @@
+<section class="market-section">
+  <article [formGroup]="filterForm" class="coin-filter">
+    <div class="coin-filter-wrapper">
+      <div class="image-filter">
+        <img src="../../../assets/loupe.png" alt="loupe icon" />
+      </div>
+      <label for="filter"> </label>
+      <input
+        type="text"
+        placeholder="Search Coin"
+        id="filter"
+        name="filter"
+        formControlName="filterInput"
+      />
+    </div>
+  </article>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Coin</th>
+        <th>See Details</th>
+        <th>Current Price</th>
+        <th>Price Change (24h)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let coin of getPageData(); let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>
+          <div class="coin-image">
+            <img [src]="coin.image" alt="coin image logo" class="coin-image" />
+            <p class="name">{{ coin.name }}</p>
+            <p class="symbol">{{ coin.symbol.toUpperCase() }}</p>
+          </div>
+        </td>
+        <td class="see-more-td">
+          <div class="see-more" (click)="gotoDetails(coin.id)">See more</div>
+        </td>
+
+        <td>{{ coin.current_price | currency : 'USD' }}</td>
+        <td
+          [ngStyle]="{
+            color: coin.price_change_24h < 0 ? 'red' : 'green'
+          }"
+        >
+          {{ coin.price_change_24h | currency : 'USD' }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button
+      class="pagination-button"
+      [disabled]="currentPage === 1"
+      (click)="changePage(currentPage - 1)"
+    >
+      Previous
+    </button>
+    <button
+      class="pagination-num"
+      *ngFor="let page of totalPages"
+      [disabled]="currentPage === page"
+      (click)="changePage(page)"
+    >
+      {{ page }}
+    </button>
+    <button
+      class="pagination-button"
+      [disabled]="currentPage === totalPages.length"
+      (click)="changePage(currentPage + 1)"
+    >
+      Next
+    </button>
+  </div>
+</section>

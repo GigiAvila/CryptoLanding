@@ -1,0 +1,32 @@
+<section class="list-section">
+  <section class="list-wrapper-section">
+    <ng-container *ngFor="let topCurrency of topCurrencies">
+      <article class="card-article">
+        <div class="card-wrapper">
+          <div class="card-title">
+            <div class="image-wrapper">
+              <img [src]="topCurrency.image" width="100" alt="" />
+            </div>
+            <h2>{{ topCurrency.symbol }}</h2>
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              {{ topCurrency.current_price | currency : currency }}
+            </p>
+            <span
+              class="market-change"
+              [ngStyle]="{
+                color:
+                  topCurrency.market_cap_change_percentage_24h < 0
+                    ? 'red'
+                    : 'green'
+              }"
+            >
+              {{ topCurrency.market_cap_change_percentage_24h }}%
+            </span>
+          </div>
+        </div>
+      </article>
+    </ng-container>
+  </section>
+</section>

@@ -1,0 +1,35 @@
+<section class="coin-detail">
+  <article class="currency-info">
+    <div class="currency-title">
+      <div>
+        <img [src]="coin?.image?.small" alt="crypto logo image" />
+      </div>
+      <h3 class="currency-name" style="font-size: 23px">{{ coin?.name }}</h3>
+    </div>
+    <h2
+      class="currency-description"
+      *ngIf="coin && coin.description && coin.description.en"
+    >
+      {{ coin.description.en.split('. ')[0] }}.{{
+        coin.description.en.split('. ')[1]
+      }}
+    </h2>
+    <div class="more-details">
+      <div class="detail">
+        <span class="title">Current Price: </span>
+        <span class="value">
+          $ {{ coin?.market_data?.current_price?.usd }}</span
+        >
+      </div>
+    </div>
+  </article>
+  <aside class="currency-canvas">
+    <canvas id="chart" style="width: 50vw" baseChart>{{ chart }}</canvas>
+    <div class="buttons">
+      <button (click)="getGraphData(1)" class="btn">24 hours</button>
+      <button (click)="getGraphData(30)" class="btn">30 days</button>
+      <button (click)="getGraphData(90)" class="btn">90 days</button>
+      <button (click)="getGraphData(365)" class="btn">1 year</button>
+    </div>
+  </aside>
+</section>

@@ -1,0 +1,44 @@
+.home-section {
+  width: 100vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
+}
+
+.home-title {
+  width: 100%;
+  height: auto;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  color: #d3d4d8;
+  padding-top: 15vh;
+  gap: 6vh;
+
+  h2 {
+    font-weight: bold;
+    font-size: 6vw;
+    letter-spacing: 0.1vw;
+
+    @media screen and (max-width: 768px) {
+      font-size: 12vw;
+    }
+  }
+  h6 {
+    color: #d3d4d8;
+    font-size: 1.5vw;
+    font-weight: 500;
+
+    @media screen and (max-width: 768px) {
+      font-size: 4vw;
+      line-height: 1.5;
+    }
+  }
+}
