@@ -57,7 +57,7 @@
   width: 100%;
   height: auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-start;
   text-transform: uppercase;
   color: #d3d4d8;
@@ -98,8 +98,6 @@
   height: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.5vw;
-  padding: 0 2vw;
 
   @media screen and (max-width: 768px) {
     gap: 3vw;
@@ -110,15 +108,15 @@
 
 .card-text {
   color: #d3d4d8;
+  margin-top: 1vw;
 
   @media screen and (max-width: 768px) {
     font-size: 3vw;
-    margin: 0;
   }
 }
 
 .market-change {
-  font-size: 0.6vw;
+  font-size: 0.9vw;
 
   @media screen and (max-width: 768px) {
     font-size: 3vw;

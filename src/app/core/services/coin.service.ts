@@ -47,8 +47,7 @@ export class CoinService {
       )
       .pipe(
         tap((data) => {
-          console.log('Datos devueltos por la API:', data),
-            transformApiCoinDetailResponse(data);
+          transformApiCoinDetailResponse(data);
         })
       );
   }

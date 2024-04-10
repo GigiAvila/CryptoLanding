@@ -35,7 +35,6 @@ export class CoinMarketComponent implements OnInit {
 
   getAllData() {
     this.coinService.getCurrency(this.currency).subscribe((res) => {
-      console.log(res)
       this.marketData = res
       this.totalPages = Array.from(
         { length: Math.ceil(this.marketData.length / this.itemsPerPage) },
