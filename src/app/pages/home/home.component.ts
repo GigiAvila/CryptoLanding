@@ -11,18 +11,4 @@ import { CoinListComponent } from '../coin-list/coin-list.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
-  bannerData?: Coin[] = [];
-
-  constructor(private coinService: CoinService) {}
-
-  ngOnInit(): void {
-    this.getBannerData();
-  }
-
-  getBannerData() {
-    this.coinService.getTrendingCurrency('USD').subscribe((res) => {
-      this.bannerData = res;
-    });
-  }
-}
+export class HomeComponent {}

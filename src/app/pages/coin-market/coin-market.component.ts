@@ -41,13 +41,11 @@ export class CoinMarketComponent implements OnInit {
   }
 
   getAllData() {
-    console.log('getAllData...')
     if (this.cacheService.has('all-currencies')) {
       const cachedData = this.cacheService.get('all-currencies')
-
       this.processData(cachedData)
     } else {
-      this.coinService.getCurrency(this.currency).subscribe((res) => {
+      this.coinService.getCurrency().subscribe((res) => {
         this.cacheService.set('all-currencies', res)
         this.processData(res)
       })
@@ -82,7 +80,6 @@ export class CoinMarketComponent implements OnInit {
   }
 
   filterData(value: string) {
-    console.log(value)
     if (this.marketData) {
       this.filteredData = this.marketData.filter((coin) =>
         coin.name.toLowerCase().includes(value.toLowerCase())

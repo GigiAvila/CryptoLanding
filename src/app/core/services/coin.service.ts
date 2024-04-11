@@ -20,16 +20,14 @@ import { CacheService } from './cache.service';
 export class CoinService {
   constructor(private http: HttpClient, private cacheService: CacheService) {}
 
-  public getCurrency(currency: string): Observable<Coin[]> {
+  public getCurrency(): Observable<Coin[]> {
     const cacheKey = `all-currencies`;
     if (this.cacheService.has(cacheKey)) {
-      console.log('usando el caché de all-currencies');
       return this.cacheService.get(cacheKey);
     } else {
-      console.log('fetching again...');
       return this.http
         .get<ApiCoinsResponse>(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&sparkline=false`
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=market_cap_desc&sparkline=false`
         )
         .pipe(
           tap((apiCoinsResponse) => {
@@ -40,14 +38,14 @@ export class CoinService {
     }
   }
 
-  public getTrendingCurrency(currency: string): Observable<Coin[]> {
+  public getTrendingCurrency(): Observable<Coin[]> {
     const cacheKey = `trending-currency`;
     if (this.cacheService.has(cacheKey)) {
       return this.cacheService.get(cacheKey);
     } else {
       return this.http
         .get<ApiCoinsResponse>(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=gecko_desc&per_page=10&page=1&sparkline=false&price_change_percentage=24h`
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=gecko_desc&per_page=10&page=1&sparkline=false&price_change_percentage=24h`
         )
         .pipe(
           tap((apiCoinsResponse) => {

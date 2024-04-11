@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Coin } from '../../core/services/models/coins.model';
 import { CoinService } from '../../core/services/coin.service';
-import { COIN_MOCK } from './coin-mock';
+import { CacheService } from '../../core/services/cache.service';
+
 @Component({
   selector: 'app-coin-list',
   standalone: true,
@@ -15,17 +16,24 @@ export class CoinListComponent implements OnInit {
   topCurrencies?: Coin[] = [];
   currency = 'USD';
 
-  constructor(private coinService: CoinService) {}
+  constructor(
+    private coinService: CoinService,
+    private cacheService: CacheService
+  ) {}
 
   ngOnInit(): void {
     this.getBannerData();
   }
 
   getBannerData() {
-    console.log('getBannerData...');
-    this.coinService.getTrendingCurrency(this.currency).subscribe((res) => {
-      console.log(res);
-      this.topCurrencies = res;
-    });
+    if (this.cacheService.has('trending-currency')) {
+      const cachedData = this.cacheService.get('trending-currency');
+      this.topCurrencies = cachedData;
+    } else {
+      this.coinService.getTrendingCurrency().subscribe((res) => {
+        this.cacheService.set('trending-currency', res);
+        this.topCurrencies = res;
+      });
+    }
   }
 }
