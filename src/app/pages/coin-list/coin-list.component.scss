@@ -76,6 +76,14 @@
       font-size: 4vw;
     }
   }
+
+  > p {
+    font-size: 0.5vw;
+    background-color: #d3d4d8;
+    color: #1f042f;
+    padding: 0.1vw 0.2vw;
+    border-radius: 4px;
+  }
 }
 
 .image-wrapper {

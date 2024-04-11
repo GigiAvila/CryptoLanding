@@ -17,18 +17,12 @@ export class HomeComponent implements OnInit {
   constructor(private coinService: CoinService) {}
 
   ngOnInit(): void {
-    this.getAllData();
     this.getBannerData();
   }
 
   getBannerData() {
     this.coinService.getTrendingCurrency('USD').subscribe((res) => {
-      console.log(res);
       this.bannerData = res;
     });
-  }
-
-  getAllData() {
-    this.coinService.getCurrency('USD').subscribe((res) => console.log(res));
   }
 }

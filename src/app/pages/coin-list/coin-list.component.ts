@@ -22,6 +22,7 @@ export class CoinListComponent implements OnInit {
   }
 
   getBannerData() {
+    console.log('getBannerData...');
     this.coinService.getTrendingCurrency(this.currency).subscribe((res) => {
       console.log(res);
       this.topCurrencies = res;

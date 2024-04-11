@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, EventEmitter, OnInit, Output } from '@angular/core'
 import { CoinService } from '../../core/services/coin.service'
 import { CommonModule } from '@angular/common'
 import { Coin } from '../../core/services/models/coins.model'
 import { Router } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { CacheService } from '../../core/services/cache.service'
 
 @Component({
   selector: 'app-coin-market',
@@ -22,8 +23,14 @@ export class CoinMarketComponent implements OnInit {
   filterForm = new FormGroup({
     filterInput: new FormControl('')
   })
+  // @Output() public addCoinToFavourites: EventEmitter<void> =
+  //   new EventEmitter<void>()
 
-  constructor(private coinService: CoinService, private router: Router) {}
+  constructor(
+    private coinService: CoinService,
+    private router: Router,
+    private cacheService: CacheService
+  ) {}
 
   ngOnInit(): void {
     this.getAllData()
@@ -34,14 +41,26 @@ export class CoinMarketComponent implements OnInit {
   }
 
   getAllData() {
-    this.coinService.getCurrency(this.currency).subscribe((res) => {
-      this.marketData = res
-      this.totalPages = Array.from(
-        { length: Math.ceil(this.marketData.length / this.itemsPerPage) },
-        (_, i) => i + 1
-      )
-      this.filteredData = [...this.marketData]
-    })
+    console.log('getAllData...')
+    if (this.cacheService.has('all-currencies')) {
+      const cachedData = this.cacheService.get('all-currencies')
+
+      this.processData(cachedData)
+    } else {
+      this.coinService.getCurrency(this.currency).subscribe((res) => {
+        this.cacheService.set('all-currencies', res)
+        this.processData(res)
+      })
+    }
+  }
+
+  private processData(data: any[]) {
+    this.marketData = data
+    this.totalPages = Array.from(
+      { length: Math.ceil(this.marketData.length / this.itemsPerPage) },
+      (_, i) => i + 1
+    )
+    this.filteredData = [...this.marketData]
   }
 
   changePage(page: number) {
@@ -71,4 +90,8 @@ export class CoinMarketComponent implements OnInit {
     }
     this.currentPage = 1
   }
+
+  // public onAddCoinToFavourites(): void {
+  //   this.addCoinToFavourites.emit()
+  // }
 }
