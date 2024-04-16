@@ -41,8 +41,10 @@ export class CoinMarketComponent implements OnInit {
   }
 
   getAllData() {
+    // console.log('getting all data...')
     if (this.cacheService.has('all-currencies')) {
       const cachedData = this.cacheService.get('all-currencies')
+      // console.log('using my cache in market')
       this.processData(cachedData)
     } else {
       this.coinService.getCurrency().subscribe((res) => {

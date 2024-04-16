@@ -26,9 +26,11 @@ export class CoinListComponent implements OnInit {
   }
 
   getBannerData() {
+    // console.log('getting banner data...');
     if (this.cacheService.has('trending-currency')) {
       const cachedData = this.cacheService.get('trending-currency');
       this.topCurrencies = cachedData;
+      // console.log('using my cache in banner data...');
     } else {
       this.coinService.getTrendingCurrency().subscribe((res) => {
         this.cacheService.set('trending-currency', res);

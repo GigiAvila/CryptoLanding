@@ -20,11 +20,38 @@ import { CacheService } from './cache.service';
 export class CoinService {
   constructor(private http: HttpClient, private cacheService: CacheService) {}
 
+  // public getCurrency(): Observable<Coin[]> {
+  //   const cacheKey = `all-currencies`;
+  //   console.log('just in case, checking again if i have my own cache ');
+  //   if (this.cacheService.has(cacheKey)) {
+  //     return this.cacheService.get(cacheKey);
+  //   } else {
+  //     console.log('nop. ok, i fetch again...');
+  //     return this.http
+  //       .get<ApiCoinsResponse>(
+  //         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=market_cap_desc&sparkline=false`
+  //       )
+  //       .pipe(
+  //         tap((apiCoinsResponse) => {
+  //           this.cacheService.set(cacheKey, apiCoinsResponse);
+  //         }),
+  //         map((apiCoinsResponse) => transformApiCoinResponse(apiCoinsResponse))
+  //       );
+  //   }
+  // }
+
   public getCurrency(): Observable<Coin[]> {
     const cacheKey = `all-currencies`;
-    if (this.cacheService.has(cacheKey)) {
-      return this.cacheService.get(cacheKey);
+    const cachedData = this.cacheService.get(cacheKey);
+    // console.log(`checking in my cache if i have something in ${cacheKey} `);
+    if (cachedData) {
+      // console.log('it seems i have something...');
+      return new Observable((observer) => {
+        observer.next(cachedData);
+        observer.complete();
+      });
     } else {
+      // console.log('nop. ok, i will fetch again...');
       return this.http
         .get<ApiCoinsResponse>(
           `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=market_cap_desc&sparkline=false`
@@ -40,8 +67,14 @@ export class CoinService {
 
   public getTrendingCurrency(): Observable<Coin[]> {
     const cacheKey = `trending-currency`;
-    if (this.cacheService.has(cacheKey)) {
-      return this.cacheService.get(cacheKey);
+    const cachedData = this.cacheService.get(cacheKey);
+    // console.log(`checking in my cache if i have something in ${cacheKey} `);
+    if (cachedData) {
+      // console.log('it seems i have something...');
+      return new Observable((observer) => {
+        observer.next(cachedData);
+        observer.complete();
+      });
     } else {
       return this.http
         .get<ApiCoinsResponse>(
@@ -57,9 +90,15 @@ export class CoinService {
   }
 
   public getCurrencyById(coinId: string): Observable<CoinDetail> {
-    const cacheKey = `currency-by-id`;
-    if (this.cacheService.has(cacheKey)) {
-      return this.cacheService.get(cacheKey);
+    const cacheKey = `currency-by-id-${coinId}`;
+    const cachedData = this.cacheService.get(cacheKey);
+    // console.log(`checking in my cache if i have something in ${cacheKey} `);
+    if (cachedData) {
+      // console.log('it seems i have something...');
+      return new Observable((observer) => {
+        observer.next(cachedData);
+        observer.complete();
+      });
     } else {
       return this.http
         .get<ApiCoinDetailsResponse>(
